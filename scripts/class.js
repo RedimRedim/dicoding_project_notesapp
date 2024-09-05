@@ -27,12 +27,13 @@ template.innerHTML = `
 <form id="noteForm">
     <div class="note-group">
         <label for="noteTitle">Title</label>
-        <input type="text" id="noteTitle" name="noteTitle" required minlength="2">
+        <input type="text" id="noteTitle" name="noteTitle" required minlength=5>
+        <p class="error-message" id="usernameError"></p>
     </div>
 
-    <div class="note-group>
+    <div class="note-group">
         <label for="noteBody">Body</label>
-        <textarea id="noteBody" name="noteBody"></textarea>
+        <textarea id="noteBody" name="noteBody" required></textarea>
     </div>
 
     <div class="note-group">
@@ -77,15 +78,35 @@ class AddNewNote extends HTMLElement {
     console.log(notesData);
   }
 
+  validateNoteTitle() {
+    const noteTitle = this.shadowRoot.querySelector("#noteTitle");
+    const usernameError = this.shadowRoot.querySelector("#usernameError");
+
+    if (noteTitle.value.length < 5) {
+      usernameError.textContent = "Title should be at least 5 characters long.";
+      noteTitle.setCustomValidity("Invalid");
+    } else {
+      usernameError.textContent = "";
+      noteTitle.setCustomValidity("");
+    }
+  }
+
   connectedCallback() {
     this.shadowRoot.querySelector("#addNote").addEventListener("click", () => {
       this.render();
     });
 
     this.shadowRoot
+      .querySelector("#noteTitle")
+      .addEventListener("input", () => {
+        this.validateNoteTitle();
+      });
+
+    this.shadowRoot
       .querySelector("#saveNote")
       .addEventListener("click", (event) => {
-        const form = this.shadowRoot.querySelector("#noteform");
+        event.preventDefault();
+        const form = this.shadowRoot.querySelector("#noteForm");
 
         if (form.checkValidity()) {
           this.addNote();
@@ -97,8 +118,14 @@ class AddNewNote extends HTMLElement {
 
   disconnectedCallback() {
     this.shadowRoot
-      .querySelector("button")
-      .removeEventListener("click", this.render);
+      .querySelector("#addNote")
+      .removeEventListener("click", () => {
+        this.render();
+      });
+
+    this.shadowRoot
+      .querySelector("#noteTitle")
+      .removeEventListener("input", this.validateNoteTitle);
   }
 }
 
