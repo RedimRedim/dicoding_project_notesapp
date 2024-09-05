@@ -1,57 +1,53 @@
-import { notesData } from "./notes.js";
+import { Notes } from "./class.js";
 
-console.log(notesData);
-const template = document.createElement("template");
-template.innerHTML = `
-<style>
-    p{background-color: steelblue;}
-</style>
-<div class="noteContent" data-noteid="id">
-<p class="noteTitle"></p>
-<p class="noteBody"></p>
-<p class="createdAt"></p>
-<p class="archived"></p>
-</div>
-`;
+const NoteClass = new Notes();
 
-function getNote() {
-  const notesDiv = "";
+// console.log(notesData);
+// const template = document.createElement("template");
+// template.innerHTML = `
+// <style>
+//     p{background-color: steelblue;}
+// </style>
+// <div class="noteContent" data-noteid="id">
+// <p class="noteTitle"></p>
+// <p class="noteBody"></p>
+// <p class="createdAt"></p>
+// <p class="archived"></p>
+// </div>
+// `;
 
-  notesData.forEach((note) => {
-    console.log(note);
-  });
+// function getNote() {
+//   const notesDiv = "";
 
-  return notesDiv;
-}
+//   notesData.forEach((note) => {
+//     console.log(note);
+//   });
 
-class NoteItem extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-  }
+//   return notesDiv;
+// }
 
-  render() {
+// class NoteItem extends HTMLElement {
+//   constructor() {
+//     super();
+//     this.attachShadow({ mode: "open" });
+//     this.shadowRoot.appendChild(template.content.cloneNode(true));
+//   }
 
-  }
+//   render() {
 
-  connectedCallback() {
-    // this.render();
-  }
-}
+//   }
 
-customElements.define("note-item", NoteItem);
-getNote();
+//   connectedCallback() {
+//     // this.render();
+//   }
+// }
+
+// customElements.define("note-item", NoteItem);
 
 //push noteid andcreate note-item once DOM is being loaded
 
 document.addEventListener("DOMContentLoaded", (event) => {
-  const notesElement = document.querySelector(".notes");
-
-  notesData.forEach((note) => {
-    let noteElement = document.createElement("note-item");
-    noteElement.setAttribute("data-noteid", note.id);
-
-    notesElement.appendChild(noteElement);
-  });
+  const notesHtml = NoteClass.getNotesHtml();
+  const notesContainer = document.querySelector(".notes");
+  notesContainer.innerHTML = notesHtml;
 });
