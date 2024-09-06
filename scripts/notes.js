@@ -105,3 +105,5 @@ export const notesData = [
     archived: false,
   },
 ];
+export const STORAGE_KEY = "notesData";
+

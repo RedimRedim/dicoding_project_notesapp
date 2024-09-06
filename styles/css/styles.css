@@ -1,0 +1,48 @@
+body {
+  background-color: black;
+  font-family: "Quicksand", "sans-serif";
+  color: #ffffff;
+}
+
+main {
+    display: grid;
+    grid-template-rows: 0.2fr 2fr;
+}
+
+.note-container{
+    display:flex;
+    flex-direction: column;
+}
+
+.notes-menu{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr); /* 3 equal columns */
+    gap: 10px;
+    width: 50%;
+    align-items: center;
+}
+
+.notes-menu p{
+    background-color: steelblue;
+    padding:2em;
+    border: 1px solid black;
+}
+
+.notes{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}  
+
+
+.noteItem{
+    border: 1px solid #ccc;
+    padding: 2em;
+    display: flex; /* Use flex to align content inside */
+    height: 100px;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center content vertically */
+    text-align: center; /* Center text horizontally */
+}
