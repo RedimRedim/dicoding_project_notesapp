@@ -1,4 +1,4 @@
-import {notesData, STORAGE_KEY} from "./notes.js"
+import { notesData, STORAGE_KEY } from "./notes.js";
 const template = document.createElement("template");
 template.innerHTML = `
 <style>
@@ -13,7 +13,7 @@ template.innerHTML = `
     <div class="note-group">
         <label for="noteTitle">Title</label>
         <input type="text" id="noteTitle" name="noteTitle" required minlength=5>
-        <p class="error-message" id="usernameError"></p>
+        <p class="error-message" id="titleError"></p>
     </div>
 
     <div class="note-group">
@@ -37,7 +37,6 @@ export class AddNewNote extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
-  
   loadNotes() {
     const storedNotes = localStorage.getItem(STORAGE_KEY);
     if (storedNotes !== null) {
@@ -52,6 +51,8 @@ export class AddNewNote extends HTMLElement {
     let notesHtml = [];
     //passing the localstorage here already okay
     // aslong as here fetch get the latest one
+
+    this.notes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     this.notes.forEach((note) => {
       notesHtml.push(
         `<div data-noteId="${note.id}" class="noteItem">
@@ -62,8 +63,8 @@ export class AddNewNote extends HTMLElement {
             </div>`
       );
     });
-
-    return notesHtml.join("");
+    const notesContainer = document.querySelector(".notes");
+    notesContainer.innerHTML = notesHtml.join("");
   }
 
   getNote() {
@@ -71,9 +72,10 @@ export class AddNewNote extends HTMLElement {
   }
 
   updateNote(note) {
+    this.notes = this.loadNotes();
     this.notes.push(note);
-    console.log(this.notes);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(this.notes));
+    this.getNotesHtml();
   }
 
   generateNoteId() {
@@ -86,38 +88,18 @@ export class AddNewNote extends HTMLElement {
     const noteTitle = this.shadowRoot.querySelector("#noteTitle").value;
     const noteBody = this.shadowRoot.querySelector("#noteBody").value;
 
-    let notesData = {
+    let noteData = {
       id: this.generateNoteId(),
       title: noteTitle,
       body: noteBody,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(),
       archived: false,
     };
-
-    //how to trigger update note then pass to localstorage append it and sort descending based in createdAt
+    console.log(noteData);
+    this.updateNote(noteData);
   }
 
-  validateNoteTitle() {
-    const noteTitle = this.shadowRoot.querySelector("#noteTitle");
-    const usernameError = this.shadowRoot.querySelector("#usernameError");
-
-    if (noteTitle.value.length < 5) {
-      usernameError.textContent = "Title should be at least 5 characters long.";
-      noteTitle.setCustomValidity("Invalid Min 5 Characters");
-    } else {
-      usernameError.textContent = "";
-      noteTitle.setCustomValidity("");
-    }
-  }
-
-  connectedCallback() {
-    this.shadowRoot.querySelector("#addNote").addEventListener("click", () => {
-      this.render();
-    });
-    this.noteButtonSaveCancelListener();
-  }
-
-  render() {
+  handleNoteClick = () => {
     this.showInfo = !this.showInfo;
 
     if (this.showInfo) {
@@ -127,50 +109,62 @@ export class AddNewNote extends HTMLElement {
       this.shadowRoot.querySelector(".notesContent").style.display = "none";
       this.shadowRoot.querySelector("#addNote").textContent = "Add note";
     }
-  }
+  };
 
-  noteButtonSaveCancelListener() {
-    const noteGroupElement =
-      this.shadowRoot.querySelector(".note-button-group");
+  handleSaveCancelNote = (event) => {
+    if (event.target.id === "saveNote") {
+      const form = this.shadowRoot.querySelector("#noteForm");
+      if (form.checkValidity()) {
+        event.preventDefault();
+        this.addNote();
+        console.log("note has been added successfully");
+      } else {
+        form.reportValidity();
+      } //form validation when saveNote being clicked
+    } else if (event.target.id === "cancelNote") {
+      this.showInfo = false;
+      this.shadowRoot.querySelector(".notesContent").style.display = "none";
+      this.shadowRoot.querySelector("#addNote").textContent = "Add note";
+    } //cancelNote handling
+  };
 
-    // Clear previous listeners to prevent duplication
-    noteGroupElement.removeEventListener("click", () => {
-      this.render();
-    });
+  functform = () => {
+    const noteTitle = this.shadowRoot.querySelector("#noteTitle");
+    const titleError = this.shadowRoot.querySelector("#titleError");
 
-    noteGroupElement.addEventListener("click", (event) => {
-      console.log(event.target.id);
-      if (event.target.id === "saveNote") {
-        this.shadowRoot
-          .querySelector("#noteTitle")
-          .addEventListener("input", () => {
-            this.validateNoteTitle();
-          });
+    if (noteTitle.value.length < 5) {
+      titleError.textContent = "Title should be at least 5 characters long.";
+      noteTitle.setCustomValidity("Invalid Min 5 Characters");
+    } else {
+      titleError.textContent = "";
+      noteTitle.setCustomValidity("");
+    }
+  };
 
-        const form = this.shadowRoot.querySelector("#noteForm");
-
-        if (form.checkValidity()) {
-          event.preventDefault();
-          this.addNote();
-          console.log("note has been added successfully");
-        } else {
-          form.reportValidity();
-        } //form validation when saveNote being clicked
-      } else if (event.target.id === "cancelNote") {
-        this.showInfo = false;
-        this.shadowRoot.querySelector(".notesContent").style.display = "none";
-        this.shadowRoot.querySelector("#addNote").textContent = "Add note";
-      } //cancelNote handling
-    });
+  connectedCallback() {
+    this.shadowRoot
+      .querySelector("#addNote")
+      .addEventListener("click", this.handleNoteClick);
+    this.shadowRoot
+      .querySelector(".note-button-group")
+      .addEventListener("click", this.handleSaveCancelNote);
+    this.shadowRoot
+      .querySelector("#noteForm")
+      .addEventListener("input", this.functform);
   }
 
   disconnectedCallback() {
     this.shadowRoot
       .querySelector("#addNote")
-      .removeEventListener("click", () => {
-        this.render();
-        this.validateNoteTitle();
-      });
+      .removeEventListener("click", this.handleNoteClick);
+
+    this.shadowRoot
+      .querySelector(".note-button-group")
+      .removeEventListener("click", this.handleSaveCancelNote);
+
+    this.shadowRoot
+      .querySelector("#noteForm")
+      .removeEventListener("input", this.functform);
   }
 }
 
