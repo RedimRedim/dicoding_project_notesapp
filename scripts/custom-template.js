@@ -2,26 +2,80 @@ import { notesData, STORAGE_KEY } from "./notes.js";
 const template = document.createElement("template");
 template.innerHTML = `
 <style>
-  button{
-  padding:0.8em;
-  cursor: pointer;
+  button {
+    background-color: #7f5af0;
+    border-radius: 5px;
+    border: 0;
+    color: #fffffe;
+    width: 100px;
+    padding: 0.8em;
+    cursor: pointer;
+    margin-bottom: 1em;
+  }
+
+  #cancelNote{
+    background-color: #94A1B2;
   }
 
   .notesContent {
-    background-color: darkgray;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Adjusted for better sync */
-    opacity: 0; /* Start with opacity 0 */
-    visibility: hidden; /* Start with hidden visibility */
-    height: 0; /* Start with no height */
-    overflow: hidden; /* Prevent overflow */
-}
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+  }
 
-.notesContent.show {
-    opacity: 1; /* Full opacity when shown */
-    visibility: visible; /* Make it visible */
-    height: auto; /* Allow height to adjust */
-}
+  .notesContent.show {
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+  }
 
+  .note-group {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    margin-bottom: 1.5em;
+  }
+
+  label {
+    padding: 1em;
+    width: 20%;
+  }
+
+  #noteTitle, 
+  textarea {
+    flex-grow: 1;
+  }
+
+  .note-button-group {
+    padding: 0 1em;
+    width: 20%;
+    column-gap: 20px;
+  }
+
+  .note-group input:focus,
+  .note-group textarea:focus {
+    background-color: #94A1B2;
+    font-size: 18px;
+    color: #fffffe;
+    outline: none;
+    border: none;
+  }
+
+  @media (max-width: 500px) {
+    .note-group {
+      width: 90%;
+    }
+
+    label {
+      width: 30%;
+    }
+
+    .note-button-group {
+      width: 60%;
+    }
+  }
 </style>
 <button id="addNote">Add Note</button>
 <div class="notesContent">
@@ -29,8 +83,8 @@ template.innerHTML = `
     <div class="note-group">
         <label for="noteTitle">Title</label>
         <input type="text" id="noteTitle" name="noteTitle" required minlength=5>
-        <p class="error-message" id="titleError"></p>
     </div>
+    <p class="error-message" id="titleError"></p>
 
     <div class="note-group">
         <label for="noteBody">Body</label>
@@ -72,7 +126,13 @@ export class AddNewNote extends HTMLElement {
     this.notes.forEach((note) => {
       notesHtml.push(
         `<div data-noteId="${note.id}" class="noteItem">
-                <div class="noteTitle">${note.title}</div>
+                <div class="noteTitle">${note.title}
+                <button id="cancelIcon" aria-label="Cancel">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.758 17.243L12.001 12m5.243-5.243L12 12m0 0L6.758 6.757M12.001 12l5.243 5.243" />
+                </svg>
+              </button>
+                </div>
                 <div class="noteBody">${note.body}</div>
                 
                 <div class="note-creation">
@@ -116,6 +176,15 @@ export class AddNewNote extends HTMLElement {
     };
     console.log(noteData);
     this.updateNote(noteData);
+  }
+
+  deleteNote(event) {
+    const noteId = this.getAttribute("data-noteid");
+    console.log(noteId);
+    // this.notes = this.loadNotes();
+    // this.notes = this.notes.filter((note) => note.id !== noteId);
+    // localStorage.setItem(STORAGE_KEY, JSON.stringify(this.notes));
+    // this.getNotesHtml();
   }
 
   handleNoteClick = () => {
