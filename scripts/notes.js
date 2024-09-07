@@ -4,14 +4,14 @@ export const notesData = [
     title: "Welcome to Notes, Dimas!",
     body: "Welcome to Notes! This is your first note. You can archive it, delete it, or create new ones.",
     createdAt: "2022-07-28T10:03:12.594Z",
-    archived: false,
+    archived: true,
   },
   {
     id: "notes-aB-cdefg12345",
     title: "Meeting Agenda",
     body: "Discuss project updates and assign tasks for the upcoming week.",
     createdAt: "2022-08-05T15:30:00.000Z",
-    archived: false,
+    archived: true,
   },
   {
     id: "notes-XyZ-789012345",
@@ -106,4 +106,3 @@ export const notesData = [
   },
 ];
 export const STORAGE_KEY = "notesData";
-

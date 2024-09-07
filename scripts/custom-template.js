@@ -6,9 +6,25 @@ template.innerHTML = `
   padding:0.8em;
   cursor: pointer;
   }
+
+  .notesContent {
+    background-color: darkgray;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Adjusted for better sync */
+    opacity: 0; /* Start with opacity 0 */
+    visibility: hidden; /* Start with hidden visibility */
+    height: 0; /* Start with no height */
+    overflow: hidden; /* Prevent overflow */
+}
+
+.notesContent.show {
+    opacity: 1; /* Full opacity when shown */
+    visibility: visible; /* Make it visible */
+    height: auto; /* Allow height to adjust */
+}
+
 </style>
 <button id="addNote">Add Note</button>
-<div class="notesContent" style="display: none;">
+<div class="notesContent">
 <form id="noteForm">
     <div class="note-group">
         <label for="noteTitle">Title</label>
@@ -58,8 +74,11 @@ export class AddNewNote extends HTMLElement {
         `<div data-noteId="${note.id}" class="noteItem">
                 <div class="noteTitle">${note.title}</div>
                 <div class="noteBody">${note.body}</div>
-                <div class="noteCreatedAt">${note.createdAt}</div>
-                <div class="noteArchived">${note.archived}</div>
+                
+                <div class="note-creation">
+                  <div class="noteArchived">${note.archived}</div>
+                  <div class="noteCreatedAt">${note.createdAt}</div>
+                </div>
             </div>`
       );
     });
@@ -101,14 +120,7 @@ export class AddNewNote extends HTMLElement {
 
   handleNoteClick = () => {
     this.showInfo = !this.showInfo;
-
-    if (this.showInfo) {
-      this.shadowRoot.querySelector(".notesContent").style.display = "block";
-      this.shadowRoot.querySelector("#addNote").textContent = "hide note";
-    } else {
-      this.shadowRoot.querySelector(".notesContent").style.display = "none";
-      this.shadowRoot.querySelector("#addNote").textContent = "Add note";
-    }
+    this.updateVisbiility();
   };
 
   handleSaveCancelNote = (event) => {
@@ -123,8 +135,7 @@ export class AddNewNote extends HTMLElement {
       } //form validation when saveNote being clicked
     } else if (event.target.id === "cancelNote") {
       this.showInfo = false;
-      this.shadowRoot.querySelector(".notesContent").style.display = "none";
-      this.shadowRoot.querySelector("#addNote").textContent = "Add note";
+      this.updateVisbiility();
     } //cancelNote handling
   };
 
@@ -140,6 +151,27 @@ export class AddNewNote extends HTMLElement {
       noteTitle.setCustomValidity("");
     }
   };
+
+  static get observedAttributes() {
+    return ["visibility"];
+  }
+
+  attributesChangedCallback(name, oldValue, newValue) {
+    if (name == "visibility") {
+      this.showInfo = newValue.toLowerCase() === "true";
+      this.updateVisbiility();
+    }
+  }
+
+  updateVisbiility() {
+    if (this.showInfo) {
+      this.shadowRoot.querySelector(".notesContent").classList.add("show");
+      this.shadowRoot.querySelector("#addNote").textContent = "Hide Note";
+    } else {
+      this.shadowRoot.querySelector(".notesContent").classList.remove("show");
+      this.shadowRoot.querySelector("#addNote").textContent = "Add Note";
+    }
+  }
 
   connectedCallback() {
     this.shadowRoot
@@ -168,4 +200,4 @@ export class AddNewNote extends HTMLElement {
   }
 }
 
-customElements.define("add-newnote", AddNewNote);
+customElements.define("add-new-note", AddNewNote);

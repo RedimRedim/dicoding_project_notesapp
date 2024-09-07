@@ -13,24 +13,37 @@
     <link rel="stylesheet" href="./styles/css/styles.css">
     <link rel="stylesheet" href="./styles/css/mediastyles.css">
 
+    <script src="../scripts/notes.js" type="module" defer></script>
     <script src="../scripts/custom-template.js" type="module" defer></script>
+    <script src="../scripts/total-notes.js" type="module" defer></script>
     <script src="../scripts/main.js" type="module" defer></script>
 </head>
+
 <body>
     <main>
         <div class="addNote">
-            <add-newnote></add-newnote>
-
+            <add-new-note visibility="false"></add-new-note>
             <!-- when clicking show up the details, using custom element-->
         </div>
 
         <div class="note-container">
             <div class="notes-menu">
-                <p>Latest Created Date</p>
-                <p>Total Created Notes</p>
+                <div class="latest-created-date">
+                    <p>Latest Created Date</p>
+                    <p id="created-date-value">1</p>
+                </div>
+
+                <div class="total-created-notes">
+                    <p>Total Created Notes</p>
+                    <p id="total-created-notes-value">1</p>
+                </div>
+
+                <div class="total-archived-notes">
+                    <p>Total Archived</p>
+                    <p id="total-archived-notes-value">1
+                </div>
             </div>
             <div class="notes">
-                <!-- generete through js using CustomElement note-item -->
             </div>
         </div>
     </main>
