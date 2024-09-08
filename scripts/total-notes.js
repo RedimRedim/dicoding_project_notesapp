@@ -1,4 +1,4 @@
-import { AddNewNote } from "./custom-template.js";
+import { NoteCustomAdd } from "./custom-template.js";
 import { STORAGE_KEY } from "./notes.js";
 
 export class TotalNotes {
@@ -37,7 +37,7 @@ export class TotalNotes {
     return this.loadNotes().filter((note) => note.archived).length;
   }
 
-  getNotesTotaltml() {
+  getNotesTotalhtml() {
     document.querySelector("#created-date-value").innerHTML =
       this.latestCreatedDate();
 

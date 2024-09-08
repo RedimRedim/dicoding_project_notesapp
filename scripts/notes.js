@@ -106,3 +106,75 @@ export const notesData = [
   },
 ];
 export const STORAGE_KEY = "notesData";
+
+export class Notes {
+  constructor() {
+    this.notes = this.loadNotes();
+  }
+
+  loadNotes() {
+    const storedNotes = localStorage.getItem(STORAGE_KEY);
+    if (storedNotes !== null) {
+      return JSON.parse(storedNotes);
+    } else {
+      console.log("asd");
+      return localStorage.setItem(STORAGE_KEY, JSON.stringify(notesData));
+    }
+  }
+
+  getNotesHtml() {
+    let notesHtml = [];
+    //passing the localstorage here already okay
+    // aslong as here fetch get the latest one
+
+    this.notes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    this.notes.forEach((note) => {
+      notesHtml.push(
+        `<div data-noteId="${note.id}" class="noteItem">
+                <div class="noteTitle">${note.title}
+                <button id="cancelIcon" aria-label="Cancel">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="2em" viewBox="0 0 24 24">
+                  <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.758 17.243L12.001 12m5.243-5.243L12 12m0 0L6.758 6.757M12.001 12l5.243 5.243" />
+                </svg>
+              </button>
+                </div>
+                <div class="noteBody">${note.body}</div>
+                
+                <div class="note-creation">
+                  <div class="noteArchived">${note.archived}</div>
+                  <div class="noteCreatedAt">${note.createdAt}</div>
+                </div>
+            </div>`
+      );
+    });
+    const notesContainer = document.querySelector(".notes");
+    notesContainer.innerHTML = notesHtml.join("");
+  }
+
+  getNote() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY));
+  }
+
+
+  updateNote(note) {
+    this.notes = this.loadNotes();
+    this.notes.push(note);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.notes));
+    this.getNotesHtml();
+  }
+
+
+  deleteNote(noteId) {
+    this.notes = this.loadNotes();
+    this.notes = this.notes.filter((note) => note.id !== noteId);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.notes));
+    this.getNotesHtml();
+  }
+
+  generateNoteId() {
+    return `notes-${Math.random().toString(36).substring(2, 8)}-${Math.random()
+      .toString(36)
+      .substring(2, 8)}`;
+  }
+}

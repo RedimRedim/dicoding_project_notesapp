@@ -1,4 +1,3 @@
-import { notesData, STORAGE_KEY } from "./notes.js";
 const template = document.createElement("template");
 template.innerHTML = `
 <style>
@@ -97,70 +96,15 @@ template.innerHTML = `
     </div>
 </form>
 </div>`;
+import { Notes } from "./notes.js";
 
-export class AddNewNote extends HTMLElement {
+export class NoteCustomAdd extends HTMLElement {
   constructor() {
     super();
     this.showInfo = false;
     this.attachShadow({ mode: "open" });
-    this.notes = this.loadNotes();
     this.shadowRoot.appendChild(template.content.cloneNode(true));
-  }
-
-  loadNotes() {
-    const storedNotes = localStorage.getItem(STORAGE_KEY);
-    if (storedNotes !== null) {
-      return JSON.parse(storedNotes);
-    } else {
-      console.log("asd");
-      return localStorage.setItem(STORAGE_KEY, JSON.stringify(notesData));
-    }
-  }
-
-  getNotesHtml() {
-    let notesHtml = [];
-    //passing the localstorage here already okay
-    // aslong as here fetch get the latest one
-
-    this.notes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    this.notes.forEach((note) => {
-      notesHtml.push(
-        `<div data-noteId="${note.id}" class="noteItem">
-                <div class="noteTitle">${note.title}
-                <button id="cancelIcon" aria-label="Cancel">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                  <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.758 17.243L12.001 12m5.243-5.243L12 12m0 0L6.758 6.757M12.001 12l5.243 5.243" />
-                </svg>
-              </button>
-                </div>
-                <div class="noteBody">${note.body}</div>
-                
-                <div class="note-creation">
-                  <div class="noteArchived">${note.archived}</div>
-                  <div class="noteCreatedAt">${note.createdAt}</div>
-                </div>
-            </div>`
-      );
-    });
-    const notesContainer = document.querySelector(".notes");
-    notesContainer.innerHTML = notesHtml.join("");
-  }
-
-  getNote() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY));
-  }
-
-  updateNote(note) {
-    this.notes = this.loadNotes();
-    this.notes.push(note);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.notes));
-    this.getNotesHtml();
-  }
-
-  generateNoteId() {
-    return `notes-${Math.random().toString(36).substring(2, 8)}-${Math.random()
-      .toString(36)
-      .substring(2, 8)}`;
+    this.noteInstance = new Notes();
   }
 
   addNote() {
@@ -168,23 +112,14 @@ export class AddNewNote extends HTMLElement {
     const noteBody = this.shadowRoot.querySelector("#noteBody").value;
 
     let noteData = {
-      id: this.generateNoteId(),
+      id: this.noteInstance.generateNoteId(),
       title: noteTitle,
       body: noteBody,
       createdAt: new Date(),
       archived: false,
     };
     console.log(noteData);
-    this.updateNote(noteData);
-  }
-
-  deleteNote(event) {
-    const noteId = this.getAttribute("data-noteid");
-    console.log(noteId);
-    // this.notes = this.loadNotes();
-    // this.notes = this.notes.filter((note) => note.id !== noteId);
-    // localStorage.setItem(STORAGE_KEY, JSON.stringify(this.notes));
-    // this.getNotesHtml();
+    this.noteInstance.updateNote(noteData);
   }
 
   handleNoteClick = () => {
@@ -198,6 +133,7 @@ export class AddNewNote extends HTMLElement {
       if (form.checkValidity()) {
         event.preventDefault();
         this.addNote();
+        this.noteInstance.getNotesHtml();
         console.log("note has been added successfully");
       } else {
         form.reportValidity();
@@ -240,6 +176,7 @@ export class AddNewNote extends HTMLElement {
       this.shadowRoot.querySelector(".notesContent").classList.remove("show");
       this.shadowRoot.querySelector("#addNote").textContent = "Add Note";
     }
+    
   }
 
   connectedCallback() {
@@ -269,4 +206,4 @@ export class AddNewNote extends HTMLElement {
   }
 }
 
-customElements.define("add-new-note", AddNewNote);
+customElements.define("note-custom-add", NoteCustomAdd);
