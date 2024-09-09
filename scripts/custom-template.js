@@ -96,17 +96,16 @@ template.innerHTML = `
     </div>
 </form>
 </div>`;
-import { Notes } from "./notes.js";
 
 export class NoteCustomAdd extends HTMLElement {
-  constructor() {
+  constructor(notesInstance, totalNotesInstance) {
     super();
     this.showInfo = false;
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
-    this.noteInstance = new Notes();
+    this.noteInstance = notesInstance;
+    this.totalNoteInstance = totalNotesInstance;
   }
-
   addNote() {
     const noteTitle = this.shadowRoot.querySelector("#noteTitle").value;
     const noteBody = this.shadowRoot.querySelector("#noteBody").value;
@@ -134,6 +133,7 @@ export class NoteCustomAdd extends HTMLElement {
         event.preventDefault();
         this.addNote();
         this.noteInstance.getNotesHtml();
+        this.totalNoteInstance.getNotesTotalHtml();
         console.log("note has been added successfully");
       } else {
         form.reportValidity();
@@ -172,11 +172,12 @@ export class NoteCustomAdd extends HTMLElement {
     if (this.showInfo) {
       this.shadowRoot.querySelector(".notesContent").classList.add("show");
       this.shadowRoot.querySelector("#addNote").textContent = "Hide Note";
+      this.setAttribute("visibility", "true");
     } else {
       this.shadowRoot.querySelector(".notesContent").classList.remove("show");
       this.shadowRoot.querySelector("#addNote").textContent = "Add Note";
+      this.setAttribute("visibility", "false");
     }
-    
   }
 
   connectedCallback() {
@@ -205,5 +206,3 @@ export class NoteCustomAdd extends HTMLElement {
       .removeEventListener("input", this.functform);
   }
 }
-
-customElements.define("note-custom-add", NoteCustomAdd);

@@ -3,15 +3,20 @@ import { Notes, notesData } from "./notes.js";
 import { TotalNotes } from "./total-notes.js";
 
 const NoteClass = new Notes();
-const NoteCustom = new NoteCustomAdd(NoteClass);
 const TotalNotesClass = new TotalNotes();
-
-
-
+// Define the custom element
+customElements.define(
+  "note-custom-add",
+  class extends NoteCustomAdd {
+    constructor() {
+      super(NoteClass, TotalNotesClass); // Pass instances to the constructor
+    }
+  }
+);
 
 document.addEventListener("DOMContentLoaded", (event) => {
   NoteClass.getNotesHtml();
-  TotalNotesClass.getNotesTotalhtml();
+  TotalNotesClass.getNotesTotalHtml();
   setupDeleteBtnListener();
 });
 
@@ -20,7 +25,7 @@ function setupDeleteBtnListener() {
 
   // Use event delegation to listen for clicks on delete buttons
   notesContainer.addEventListener("click", (event) => {
-    if (event.target.parentElement.id == "cancelIcon") {
+    if (event.target.parentElement.id == "deleteIcon") {
       const noteItem = event.target.closest(".noteItem");
       if (noteItem) {
         const noteId = noteItem.getAttribute("data-noteid");
@@ -32,9 +37,8 @@ function setupDeleteBtnListener() {
         NoteClass.deleteNote(noteId);
 
         // Update the total notes count
-        TotalNotesClass.getNotesTotalhtml();
+        TotalNotesClass.getNotesTotalHtml();
       }
     }
   });
 }
-

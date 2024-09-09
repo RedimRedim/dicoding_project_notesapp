@@ -133,7 +133,7 @@ export class Notes {
       notesHtml.push(
         `<div data-noteId="${note.id}" class="noteItem">
                 <div class="noteTitle">${note.title}
-                <button id="cancelIcon" aria-label="Cancel">
+                <button id="deleteIcon" aria-label="Cancel">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="2em" viewBox="0 0 24 24">
                   <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.758 17.243L12.001 12m5.243-5.243L12 12m0 0L6.758 6.757M12.001 12l5.243 5.243" />
                 </svg>
@@ -156,14 +156,12 @@ export class Notes {
     return JSON.parse(localStorage.getItem(STORAGE_KEY));
   }
 
-
   updateNote(note) {
     this.notes = this.loadNotes();
     this.notes.push(note);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(this.notes));
     this.getNotesHtml();
   }
-
 
   deleteNote(noteId) {
     this.notes = this.loadNotes();

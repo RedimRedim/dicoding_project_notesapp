@@ -83,7 +83,7 @@ main {
   justify-content: space-between;
 }
 
-#cancelIcon {
+#deleteIcon {
   background: none;
   border: none;
   cursor: pointer;

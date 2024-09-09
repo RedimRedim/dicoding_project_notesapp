@@ -37,7 +37,7 @@ export class TotalNotes {
     return this.loadNotes().filter((note) => note.archived).length;
   }
 
-  getNotesTotalhtml() {
+  getNotesTotalHtml() {
     document.querySelector("#created-date-value").innerHTML =
       this.latestCreatedDate();
 
