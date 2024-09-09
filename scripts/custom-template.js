@@ -1,12 +1,12 @@
 const template = document.createElement("template");
 template.innerHTML = `
 <style>
-  button {
+  button{
     background-color: #7f5af0;
     border-radius: 5px;
     border: 0;
     color: #fffffe;
-    width: 100px;
+    width: 150px;
     padding: 0.8em;
     cursor: pointer;
     margin-bottom: 1em;
@@ -17,6 +17,7 @@ template.innerHTML = `
   }
 
   .notesContent {
+   width:150px;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     opacity: 0;
     visibility: hidden;
@@ -33,7 +34,7 @@ template.innerHTML = `
   .note-group {
     display: flex;
     flex-direction: row;
-    width: 50%;
+    width: 100%;
     margin-bottom: 1.5em;
   }
 
@@ -53,10 +54,13 @@ template.innerHTML = `
     column-gap: 20px;
   }
 
+
+
   .note-group input:focus,
   .note-group textarea:focus {
     background-color: #94A1B2;
     font-size: 18px;
+    flex-grow:1
     color: #fffffe;
     outline: none;
     border: none;
@@ -170,10 +174,12 @@ export class NoteCustomAdd extends HTMLElement {
 
   updateVisbiility() {
     if (this.showInfo) {
+      this.shadowRoot.querySelector(".notesContent").style.width = "500px";
       this.shadowRoot.querySelector(".notesContent").classList.add("show");
       this.shadowRoot.querySelector("#addNote").textContent = "Hide Note";
       this.setAttribute("visibility", "true");
     } else {
+      this.shadowRoot.querySelector(".notesContent").style.width = "150px";
       this.shadowRoot.querySelector(".notesContent").classList.remove("show");
       this.shadowRoot.querySelector("#addNote").textContent = "Add Note";
       this.setAttribute("visibility", "false");

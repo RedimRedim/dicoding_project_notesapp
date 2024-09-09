@@ -15,6 +15,8 @@
 
     <script src="../scripts/notes.js" type="module" defer></script>
     <script src="../scripts/custom-template.js" type="module" defer></script>
+    <script src="../scripts/custom-search.js" type="module" defer></script>
+    <script src="../scripts/custom-footer.js" type="module" defer></script>
     <script src="../scripts/total-notes.js" type="module" defer></script>
     <script src="../scripts/main.js" type="module" defer></script>
 </head>
@@ -41,9 +43,14 @@
 
             <div class="addNote">
                 <note-custom-add visibility="false"></note-custom-add>
+                <note-custom-filter></note-custom-filter>
                 <!-- when clicking show up the details, using custom element-->
             </div>
             <div class="notes" id="notesList">
+            </div>
+
+            <div class="end-container">
+                <note-custom-footer></note-custom-footer>
             </div>
         </div>
     </main>

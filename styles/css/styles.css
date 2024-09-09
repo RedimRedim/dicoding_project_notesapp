@@ -78,6 +78,12 @@ main {
   padding: 0.5em;
 }
 
+.addNote {
+  display: flex;
+  flex-direction: row;
+  column-gap: 35px;
+}
+
 .noteTitle {
   display: flex;
   justify-content: space-between;
@@ -90,4 +96,11 @@ main {
   padding: 0;
   display: inline-flex;
   align-items: center;
+}
+
+.end-container {
+  margin-top: 15px;
+  padding: 1em;
+  border: 1px solid #504e4e;
+  border-radius: 10px;
 }

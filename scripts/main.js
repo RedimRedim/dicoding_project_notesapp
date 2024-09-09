@@ -1,15 +1,24 @@
 import { NoteCustomAdd } from "./custom-template.js";
 import { Notes, notesData } from "./notes.js";
 import { TotalNotes } from "./total-notes.js";
-
+import { NoteCustomSearch } from "./custom-search.js";
 const NoteClass = new Notes();
 const TotalNotesClass = new TotalNotes();
-// Define the custom element
+
 customElements.define(
   "note-custom-add",
   class extends NoteCustomAdd {
     constructor() {
       super(NoteClass, TotalNotesClass); // Pass instances to the constructor
+    }
+  }
+);
+
+customElements.define(
+  "note-custom-filter",
+  class extends NoteCustomSearch {
+    constructor() {
+      super();
     }
   }
 );

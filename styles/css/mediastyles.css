@@ -1,60 +1,55 @@
 @media (max-width: 1200px) {
-    main{
-        padding:1.5em;
-    }
+  main {
+    padding: 1.5em;
+  }
 
-    .notes {
-        overflow: auto;
-        grid-template-columns: 1fr;
-        padding: 1em;
-    }
+  .notes {
+    overflow: auto;
+    grid-template-columns: 1fr;
+    padding: 1em;
+  }
 
-    .notes-menu {
-        grid-template-columns: repeat(3, 250px);
-        padding: 0;;
-    }
-    .notes {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-  
+  .notes-menu {
+    grid-template-columns: repeat(3, 250px);
+    padding: 0;
+  }
+  .notes {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-@media (max-width: 800px) {
-    .notes {
-        overflow: auto;
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 768px) {
+  .notes {
+    overflow: auto;
+    grid-template-columns: 1fr;
+  }
 
-    .notes-menu {
-        grid-template-columns: 1fr;
-    }
+  main {
+    padding: 1em;
+  }
+  body {
+    font-size: 0.9em;
+  }
 
-    .noteItem {
-        padding: 1em;
-    }
-}
+  .note-container {
+    overflow: auto;
+  }
 
-@media (max-width: 500px) {
-    main {
-        padding : 1em;
+  #notesList {
+    max-height: 500px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    display: grid; /* Use grid for layout */
+    grid-template-columns: 1fr; /* Single column layout */
+    gap: 10px; /* Space between notes */
+  }
 
-    }
-    body {
-        font-size: 0.9em;
-    }
+  .notes-menu {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
 
-    .note-container{
-        overflow: auto;
-    }
-
-    .notes-menu{
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-    }
-
-    .noteItem{
-        overflow: auto;
-    }
+  .noteItem {
+    overflow: auto;
+  }
 }

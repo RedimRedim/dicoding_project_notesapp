@@ -117,12 +117,13 @@ export class Notes {
     if (storedNotes !== null) {
       return JSON.parse(storedNotes);
     } else {
-      console.log("asd");
+      console.log("Loading Notes...");
       return localStorage.setItem(STORAGE_KEY, JSON.stringify(notesData));
     }
   }
 
   getNotesHtml() {
+    this.notes = this.loadNotes();
     let notesHtml = [];
     //passing the localstorage here already okay
     // aslong as here fetch get the latest one
