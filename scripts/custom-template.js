@@ -110,21 +110,16 @@ export class NoteCustomAdd extends HTMLElement {
     this.noteInstance = notesInstance;
     this.totalNoteInstance = totalNotesInstance;
   }
-  addNote() {
+  async postNote() {
     const noteTitle = this.shadowRoot.querySelector("#noteTitle").value;
     const noteBody = this.shadowRoot.querySelector("#noteBody").value;
 
     let noteData = {
-      id: this.noteInstance.generateNoteId(),
       title: noteTitle,
       body: noteBody,
-      createdAt: new Date(),
-      archived: false,
     };
 
-    const { id, ...updatedData } = noteData;
-
-    this.noteInstance.updateNote(noteData.id, updatedData);
+    await this.noteInstance.addNote(noteData);
   }
 
   handleNoteClick = () => {
@@ -132,14 +127,13 @@ export class NoteCustomAdd extends HTMLElement {
     this.updateVisbiility();
   };
 
-  handleSaveCancelNote = (event) => {
+  handleSaveCancelNote = async (event) => {
     if (event.target.id === "saveNote") {
       const form = this.shadowRoot.querySelector("#noteForm");
       if (form.checkValidity()) {
         event.preventDefault();
-        // this.addNote();
-        // this.noteInstance.getNotesHtml();
-        // this.totalNoteInstance.getNotesTotalHtml();
+        await this.postNote();
+        await this.totalNoteInstance.getNotesTotalHtml();
         console.log("note has been added successfully");
       } else {
         form.reportValidity();

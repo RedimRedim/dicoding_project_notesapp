@@ -15,7 +15,7 @@ customElements.define(
     constructor() {
       super(NoteClass, TotalNotesClass); // Pass instances to the constructor
     }
-  }
+  },
 );
 
 customElements.define(
@@ -24,12 +24,12 @@ customElements.define(
     constructor() {
       super();
     }
-  }
+  },
 );
 
-document.addEventListener("DOMContentLoaded", (event) => {
-  NoteClass.getNotesHtml();
-  TotalNotesClass.getNotesTotalHtml();
+document.addEventListener("DOMContentLoaded", async (event) => {
+  await NoteClass.getNotesHtml();
+  await TotalNotesClass.getNotesTotalHtml();
   setupDeleteBtnListener();
 });
 
@@ -37,7 +37,7 @@ function setupDeleteBtnListener() {
   const notesContainer = document.getElementById("notesList"); // Adjust as needed
 
   // Use event delegation to listen for clicks on delete buttons
-  notesContainer.addEventListener("click", (event) => {
+  notesContainer.addEventListener("click", async (event) => {
     if (event.target.parentElement.id == "deleteIcon") {
       const noteItem = event.target.closest(".noteItem");
       if (noteItem) {
@@ -47,7 +47,7 @@ function setupDeleteBtnListener() {
         noteItem.remove();
 
         // Delete the note from the data structure
-        NoteClass.deleteNote(noteId);
+        await NoteClass.deleteNote(noteId);
 
         // Update the total notes count
         TotalNotesClass.getNotesTotalHtml();

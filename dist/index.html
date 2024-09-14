@@ -1,54 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notes App</title>
 
     <!-- Quicksand-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
 
-    <titleWebpack App
-        </title>
-<script defer src="bundlef30f997272fff692ccf4.js"></script></head>
+    <title>NoteApp</title>
+    <script defer src="bundlef30f997272fff692ccf4.js"></script>
+  </head>
 
-<body>
+  <body>
     <main>
-        <div class="note-container">
-            <div class="notes-menu">
-                <div class="latest-created-date">
-                    <p>Latest Created Date</p>
-                    <p id="created-date-value">1</p>
-                </div>
+      <div class="note-container">
+        <div class="notes-menu">
+          <div class="latest-created-date">
+            <p>Latest Created Date</p>
+            <p id="created-date-value">1</p>
+          </div>
 
-                <div class="total-created-notes">
-                    <p>Total Created Notes</p>
-                    <p id="total-created-notes-value">1</p>
-                </div>
+          <div class="total-created-notes">
+            <p>Total Created Notes</p>
+            <p id="total-created-notes-value">1</p>
+          </div>
 
-                <div class="total-archived-notes">
-                    <p>Total Archived</p>
-                    <p id="total-archived-notes-value">1
-                </div>
-            </div>
-
-            <div class="addNote">
-                <note-custom-add visibility="false"></note-custom-add>
-                <note-custom-filter></note-custom-filter>
-                <!-- when clicking show up the details, using custom element-->
-            </div>
-            <div class="notes" id="notesList">
-            </div>
-
-            <div class="end-container">
-                <note-custom-footer></note-custom-footer>
-            </div>
+          <div class="total-archived-notes">
+            <p>Total Archived</p>
+            <p id="total-archived-notes-value">1</p>
+          </div>
         </div>
+
+        <div class="addNote">
+          <note-custom-add visibility="false"></note-custom-add>
+          <note-custom-filter></note-custom-filter>
+          <!-- when clicking show up the details, using custom element-->
+        </div>
+        <div class="notes" id="notesList"></div>
+
+        <div class="end-container">
+          <note-custom-footer></note-custom-footer>
+        </div>
+      </div>
     </main>
-</body>
-
-
+  </body>
 </html>

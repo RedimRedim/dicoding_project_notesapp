@@ -1,4 +1,4 @@
-const apiUrl = "https://notes-api.dicoding.dev/v2#/";
+export const apiUrl = "https://notes-api.dicoding.dev/v2/notes";
 
 export class Notes {
   constructor() {
@@ -12,19 +12,21 @@ export class Notes {
       if (!response.ok) {
         throw new Error(`ERROR FETCHING API!, status: ${response.status}`);
       }
-
-      this.notes = await response.json();
-      console.log(this.notes);
+      const data = await response.json();
+      this.notes = data.data;
       return this.notes;
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   }
 
-  getNotesHtml() {
+  async getNotesHtml() {
+    this.notes = await this.getNotes();
+    console.log(this.notes);
     if (this.notes.length > 0) {
       this.notes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
+      const notesHtml = this.notes.map((note) => {});
       this.notes.forEach((note) => {
         notesHtml.push(
           `<div data-noteId="${note.id}" class="noteItem">
@@ -49,10 +51,27 @@ export class Notes {
     }
   }
 
-  generateNoteId() {
-    return `notes-${Math.random().toString(36).substring(2, 8)}-${Math.random()
-      .toString(36)
-      .substring(2, 8)}`;
+  async addNote(noteData) {
+    try {
+      const response = await fetch(`${apiUrl}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(noteData),
+      });
+
+      const responsedata = await response.json();
+      if (!response.ok) {
+        throw new Error(`ERROR ADDING API!, status: ${response}`);
+      }
+      alert(
+        `Note has been added successfully" ${JSON.stringify(responsedata)}`
+      );
+      await this.getNotesHtml();
+    } catch (error) {
+      alert(error);
+    }
   }
 
   async updateNote(noteId, updatedData) {
@@ -65,21 +84,36 @@ export class Notes {
         body: JSON.stringify(updatedData),
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
-        throw new Error(`ERROR UPDATING API!, status: ${response.status}`);
+        throw new Error(`ERROR UPDATING API!, status: ${response}`);
       }
 
-      const responseData = await response.json();
-      await this.getNotes();
-      this.getNotesHtml();
-      alert(`Note updated successfully! ${responseData}`);
+      await this.getNotesHtml();
+      alert(`Note updated successfully! ${JSON.stringify(responseData)}`);
     } catch (error) {
-      console.log(error);
-      alert("Failed to update note. Please try again");
+      alert(error);
     }
   }
 
-  deleteNote(noteId) {
-    console.log(noteId);
+  async deleteNote(noteId) {
+    try {
+      const response = await fetch(`${apiUrl}/${noteId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(`ERROR DELETING API!, status: ${response}`);
+      }
+
+      await this.getNotesHtml();
+      alert(`Note deleted successfully! ${JSON.stringify(responseData)}`);
+    } catch (error) {
+      alert(error);
+    }
   }
 }

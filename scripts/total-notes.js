@@ -13,7 +13,7 @@ export class TotalNotes {
     }
 
     const sortedNotes = this.notesInstance.notes.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
     return sortedNotes[0].createdAt;
   }
