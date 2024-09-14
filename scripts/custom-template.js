@@ -121,8 +121,10 @@ export class NoteCustomAdd extends HTMLElement {
       createdAt: new Date(),
       archived: false,
     };
-    console.log(noteData);
-    this.noteInstance.updateNote(noteData);
+
+    const { id, ...updatedData } = noteData;
+
+    this.noteInstance.updateNote(noteData.id, updatedData);
   }
 
   handleNoteClick = () => {
@@ -135,9 +137,9 @@ export class NoteCustomAdd extends HTMLElement {
       const form = this.shadowRoot.querySelector("#noteForm");
       if (form.checkValidity()) {
         event.preventDefault();
-        this.addNote();
-        this.noteInstance.getNotesHtml();
-        this.totalNoteInstance.getNotesTotalHtml();
+        // this.addNote();
+        // this.noteInstance.getNotesHtml();
+        // this.totalNoteInstance.getNotesTotalHtml();
         console.log("note has been added successfully");
       } else {
         form.reportValidity();

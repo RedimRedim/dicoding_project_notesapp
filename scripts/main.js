@@ -1,9 +1,13 @@
 import { NoteCustomAdd } from "./custom-template.js";
-import { Notes, notesData } from "./notes.js";
+import { Notes } from "./notes.js";
 import { TotalNotes } from "./total-notes.js";
 import { NoteCustomSearch } from "./custom-search.js";
+// In your main.js file
+import "../src/styles/styles.css";
+import "../src/styles/mediastyles.css";
+
 const NoteClass = new Notes();
-const TotalNotesClass = new TotalNotes();
+const TotalNotesClass = new TotalNotes(NoteClass);
 
 customElements.define(
   "note-custom-add",

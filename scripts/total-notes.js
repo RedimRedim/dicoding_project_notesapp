@@ -1,40 +1,25 @@
-import { NoteCustomAdd } from "./custom-template.js";
-import { STORAGE_KEY } from "./notes.js";
-
 export class TotalNotes {
-  constructor() {
-    this.notes = this.loadNotes();
-  }
-
-  loadNotes() {
-    const storedNotes = localStorage.getItem(STORAGE_KEY);
-    if (storedNotes !== null) {
-      return JSON.parse(storedNotes);
-    } else {
-      console.log("asd");
-      return localStorage.setItem(STORAGE_KEY, JSON.stringify(notesData));
-    }
+  constructor(notesInstance) {
+    this.notesInstance = notesInstance;
   }
 
   sumCreatedNotes() {
-    return this.loadNotes().length;
+    return this.notesInstance.notes.length;
   }
 
   latestCreatedDate() {
-    const notes = this.loadNotes();
-
-    if (notes.length === 0) {
+    if (this.notesInstance.notes.length === 0) {
       return null;
     }
 
-    const sortedNotes = notes.sort(
+    const sortedNotes = this.notesInstance.notes.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
     return sortedNotes[0].createdAt;
   }
 
   sumArchivedNotes() {
-    return this.loadNotes().filter((note) => note.archived).length;
+    return this.notesInstance.notes.filter((note) => note.archived).length;
   }
 
   getNotesTotalHtml() {

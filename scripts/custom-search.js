@@ -12,7 +12,7 @@ template.innerHTML = `
 `;
 
 export class NoteCustomSearch extends HTMLElement {
-  constructor() { 
+  constructor() {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
