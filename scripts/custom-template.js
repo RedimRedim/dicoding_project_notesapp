@@ -194,6 +194,7 @@ export class NoteCustomAdd extends HTMLElement {
       .addEventListener("input", this.functform);
   }
 
+
   disconnectedCallback() {
     this.shadowRoot
       .querySelector("#addNote")

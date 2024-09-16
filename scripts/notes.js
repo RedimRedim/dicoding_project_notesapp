@@ -1,4 +1,5 @@
 export const apiUrl = "https://notes-api.dicoding.dev/v2/notes";
+import Swal from "sweetalert2";
 
 export class Notes {
   constructor() {
@@ -61,17 +62,37 @@ export class Notes {
         body: JSON.stringify(noteData),
       });
 
-      const responsedata = await response.json();
       if (!response.ok) {
         throw new Error(`ERROR ADDING API!, status: ${response}`);
       }
-      alert(
-        `Note has been added successfully" ${JSON.stringify(responsedata)}`
-      );
+
+      await this.swalAlert({
+        status: "success",
+        title: "Note added successfully",
+      });
+
       await this.getNotesHtml();
     } catch (error) {
-      alert(error);
+      this.swalAlert({ status: "error", title: "Failed to add note" });
     }
+  }
+
+  swalAlert({ status, title }) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+    Toast.fire({
+      icon: status,
+      title: title,
+    });
   }
 
   async updateNote(noteId, updatedData) {
@@ -91,9 +112,14 @@ export class Notes {
       }
 
       await this.getNotesHtml();
-      alert(`Note updated successfully! ${JSON.stringify(responseData)}`);
+
+      this.swalAlert({
+        status: "success",
+        title: "Note updated successfully",
+        text: JSON.stringify(responseData),
+      });
     } catch (error) {
-      alert(error);
+      this.swalAlert({ status: "error", title: "Failed to update note" });
     }
   }
 
@@ -111,9 +137,14 @@ export class Notes {
       }
 
       await this.getNotesHtml();
-      alert(`Note deleted successfully! ${JSON.stringify(responseData)}`);
+
+      this.swalAlert({
+        status: "success",
+        title: "Note deleted successfully",
+        text: JSON.stringify(responseData),
+      });
     } catch (error) {
-      alert(error);
+      this.swalAlert({ status: "error", title: "Failed to delete note" });
     }
   }
 }

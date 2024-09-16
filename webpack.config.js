@@ -10,12 +10,6 @@ module.exports = {
     filename: "[name][contenthash].js", //create bundle with hash
     clean: true, //only keep one file in dist js
   },
-  devtool: "source-map",
-  devServer: {
-    static: { directory: path.resolve(__dirname, "dist") },
-    hot: true,
-    open: true,
-  },
   module: {
     rules: [
       {
@@ -40,4 +34,10 @@ module.exports = {
       filename: "index.html",
     }),
   ],
+  devtool: "source-map",
+  devServer: {
+    static: { directory: path.resolve(__dirname, "dist") },
+    hot: true,
+    open: true,
+  },
 };

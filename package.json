@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode development",
-    "start-dev": "webpack serve"
+    "build": "webpack --mode production",
+    "start-dev": "webpack serve --mode development"
   },
   "keywords": [],
   "author": "",
@@ -21,5 +21,8 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0",
     "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "sweetalert2": "^11.14.0"
   }
 }
