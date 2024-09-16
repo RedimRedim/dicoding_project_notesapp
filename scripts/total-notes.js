@@ -13,7 +13,7 @@ export class TotalNotes {
     }
 
     const sortedNotes = this.notesInstance.notes.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
     return sortedNotes[0].createdAt;
   }
@@ -21,7 +21,6 @@ export class TotalNotes {
   sumArchivedNotes() {
     return this.notesInstance.notes.filter((note) => note.archived).length;
   }
-
   getNotesTotalHtml() {
     document.querySelector("#created-date-value").innerHTML =
       this.latestCreatedDate();

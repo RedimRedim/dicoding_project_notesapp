@@ -1,5 +1,6 @@
 export const apiUrl = "https://notes-api.dicoding.dev/v2/notes";
 import Swal from "sweetalert2";
+import "@sweetalert2/theme-dark/dark.css"; // Import the dark theme CSS
 
 export class Notes {
   constructor() {
@@ -84,6 +85,9 @@ export class Notes {
       showConfirmButton: false,
       timer: 1500,
       timerProgressBar: true,
+      customClass: {
+        container: "swal2-dark", // Add dark theme explicitly
+      },
       didOpen: (toast) => {
         toast.onmouseenter = Swal.stopTimer;
         toast.onmouseleave = Swal.resumeTimer;
