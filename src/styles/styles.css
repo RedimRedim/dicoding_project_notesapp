@@ -57,9 +57,13 @@ main {
   overflow: auto;
 }
 
-.noteTitle {
+.noteTitleGroup {
   padding: 1em;
   border-bottom: 3px solid #504e4e;
+}
+
+.noteTitle {
+  flex-grow: 1;
 }
 
 .noteBody {
@@ -81,10 +85,11 @@ main {
 .addNote {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
   column-gap: 35px;
 }
 
-.noteTitle {
+.noteTitleGroup {
   display: flex;
   justify-content: space-between;
 }
@@ -96,6 +101,7 @@ main {
   padding: 0;
   display: inline-flex;
   align-items: center;
+  margin-left: 1em;
 }
 
 .end-container {
@@ -120,4 +126,40 @@ main {
   background-color: #333;
   border-radius: 50%;
   margin: 0 5px;
+}
+
+#archiveSelect {
+  background-color: #7f5af0;
+  border-radius: 5px;
+  border: 0;
+  color: #fffffe;
+  padding: 0.8em;
+  cursor: pointer;
+  margin-bottom: 1em;
+  font-size: 1em;
+}
+
+.select-group {
+  width: 100%;
+}
+
+#archiveSelect option {
+  text-align: center;
+}
+
+.isArchived {
+  padding: 0.8em;
+  border-radius: 5px;
+  border: 0;
+  cursor: pointer;
+  color: #fffffe;
+}
+
+.isArchived:hover {
+  background-color: rgb(0, 0, 0);
+  transition: rgb(0, 0, 0) 0.5s ease-in-out;
+  -webkit-transition: rgb(0, 0, 0) 0.5s ease-in-out;
+  -moz-transition: rgb(0, 0, 0) 0.5s ease-in-out;
+  -ms-transition: rgb(0, 0, 0) 0.5s ease-in-out;
+  -o-transition: rgb(0, 0, 0) 0.5s ease-in-out;
 }

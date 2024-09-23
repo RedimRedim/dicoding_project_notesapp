@@ -6,7 +6,16 @@ template.innerHTML = `
   border-radius: 5px;
   border: 0;
   width: 200px;
+  font-size: 1em;
+
   }
+
+
+@media (max-width: 768px) {
+#filterNote{
+  width: 300px;
+}
+}
 </style>
 <input type="text" placeholder="Search Note Title" id="filterNote">
 `;

@@ -1,5 +1,10 @@
 const template = document.createElement("template");
 template.innerHTML = `
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer> 
+</script>
+
 <style>
   button{
     background-color: #7f5af0;
@@ -58,18 +63,49 @@ template.innerHTML = `
 
   .note-group input:focus,
   .note-group textarea:focus {
-    background-color: #94A1B2;
     font-size: 18px;
     flex-grow:1
-    color: #fffffe;
     outline: none;
     border: none;
   }
 
+     .form-check {
+      width:100%;
+      margin: 0;
+      display:flex;
+      gap: 4em;
+      justify-content: flex-start;
+      align-items: center;
+      align-self: center;
+    }
+
+    .form-check-label{
+      margin-left: -50px;
+      align-items:center;
+      align-self: center;
+      justify-content: center;
+    }
+
+    .form-check-input{
+       width:15% !important;
+       height:10%!important;
+       border: 1px solid white !important;
+      padding: 1em !important;
+      margin-bottom: 2em;
+    }
+
+  .notesContent {
+    width: 500px;
+  }
+
+    
+
   @media (max-width: 500px) {
+   
     .note-group {
       width: 90%;
     }
+
 
     label {
       width: 30%;
@@ -78,8 +114,16 @@ template.innerHTML = `
     .note-button-group {
       width: 60%;
     }
+
+
+  .notesContent {
+    width: 100%;
+  }
+  
   }
 </style>
+
+
 <button id="addNote">Add Note</button>
 <div class="notesContent">
 <form id="noteForm">
@@ -94,10 +138,18 @@ template.innerHTML = `
         <textarea id="noteBody" name="noteBody" required></textarea>
     </div>
 
+      <div class="form-check form-switch">
+      <label class="form-check-label" for="flexSwitchCheckDefault">Archived</label>
+      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+      </div>
+
     <div class="note-group note-button-group">
         <button type="submit" id="saveNote">Save</button>
         <button type="button" id="cancelNote">Cancel</button>
+
     </div>
+
+ 
 </form>
 </div>`;
 
@@ -113,13 +165,15 @@ export class NoteCustomAdd extends HTMLElement {
   async postNote() {
     const noteTitle = this.shadowRoot.querySelector("#noteTitle").value;
     const noteBody = this.shadowRoot.querySelector("#noteBody").value;
-
+    const isArchived = this.shadowRoot.querySelector(
+      "#flexSwitchCheckDefault",
+    ).checked;
     let noteData = {
       title: noteTitle,
       body: noteBody,
     };
 
-    await this.noteInstance.addNote(noteData);
+    await this.noteInstance.addNote(noteData, isArchived);
   }
 
   handleNoteClick = () => {
@@ -170,12 +224,10 @@ export class NoteCustomAdd extends HTMLElement {
 
   updateVisbiility() {
     if (this.showInfo) {
-      this.shadowRoot.querySelector(".notesContent").style.width = "500px";
       this.shadowRoot.querySelector(".notesContent").classList.add("show");
       this.shadowRoot.querySelector("#addNote").textContent = "Hide Note";
       this.setAttribute("visibility", "true");
     } else {
-      this.shadowRoot.querySelector(".notesContent").style.width = "150px";
       this.shadowRoot.querySelector(".notesContent").classList.remove("show");
       this.shadowRoot.querySelector("#addNote").textContent = "Add Note";
       this.setAttribute("visibility", "false");
@@ -193,7 +245,6 @@ export class NoteCustomAdd extends HTMLElement {
       .querySelector("#noteForm")
       .addEventListener("input", this.functform);
   }
-
 
   disconnectedCallback() {
     this.shadowRoot

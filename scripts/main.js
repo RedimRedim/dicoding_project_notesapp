@@ -10,6 +10,7 @@ const NoteClass = new Notes();
 const TotalNotesClass = new TotalNotes(NoteClass);
 let animationInstance;
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const archiveSelect = document.getElementById("archiveSelect");
 
 const showAnimations = () => {
   const loadingElement = document.getElementById("loading");
@@ -41,7 +42,7 @@ customElements.define(
     constructor() {
       super(NoteClass, TotalNotesClass); // Pass instances to the constructor
     }
-  }
+  },
 );
 
 customElements.define(
@@ -50,37 +51,41 @@ customElements.define(
     constructor() {
       super();
     }
-  }
+  },
 );
 
 document.addEventListener("DOMContentLoaded", async (event) => {
   showAnimations(); // Show animation
-  await delay(2000);
+  await delay(500);
   hideLoadingAnimation(); // Hide animation
-  await NoteClass.getNotesHtml();
+  await NoteClass.getNotes(); // DOM loaded "archived" fetch
   await TotalNotesClass.getNotesTotalHtml();
-  await setupDeleteBtnListener();
+  setupListeners();
 });
 
-function setupDeleteBtnListener() {
-  const notesContainer = document.getElementById("notesList"); // Adjust as needed
+// handling archive selection
+archiveSelect.addEventListener("change", async (event) => {
+  const selectedValue = event.target.value; // get archived or ('' = unarchived)
+  await NoteClass.getNotes(selectedValue);
+  await TotalNotesClass.getNotesTotalHtml();
+});
 
-  // Use event delegation to listen for clicks on delete buttons
-  notesContainer.addEventListener("click", async (event) => {
-    if (event.target.parentElement.id == "deleteIcon") {
-      const noteItem = event.target.closest(".noteItem");
-      if (noteItem) {
-        const noteId = noteItem.getAttribute("data-noteid");
+//setup Delete & Archive Listener for both
+async function setupListeners() {
+  const noteContainer = document.getElementById("notesList");
 
-        // Remove the note item from the DOM
-        noteItem.remove();
+  noteContainer.addEventListener("click", async (event) => {
+    if (event.target.classList.contains("isArchived")) {
+      console.log("archive/non-archived is being clicked");
+      const btnNoteId = event.target.closest("[data-noteid]").dataset.noteid;
+      await NoteClass.updateArchive(btnNoteId);
+      await TotalNotesClass.getNotesTotalHtml();
+    } else if (event.target.parentElement.id === "deleteIcon") {
+      const noteId = event.target.closest("[data-noteid]").dataset.noteid;
 
-        // Delete the note from the data structure
-        await NoteClass.deleteNote(noteId);
-
-        // Update the total notes count
-        TotalNotesClass.getNotesTotalHtml();
-      }
+      await NoteClass.deleteNote(noteId); //optional to add archive
+      event.target.closest(".noteItem").remove();
+      await TotalNotesClass.getNotesTotalHtml();
     }
   });
 }

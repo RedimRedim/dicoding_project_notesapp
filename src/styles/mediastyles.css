@@ -19,20 +19,30 @@
 }
 
 @media (max-width: 768px) {
+  main {
+    padding: 1.5em;
+  }
+
+  .addNote {
+    padding: 0.5em;
+  }
+
   .notes {
     overflow: auto;
     grid-template-columns: 1fr;
   }
 
-  main {
-    padding: 1em;
-  }
   body {
     font-size: 0.9em;
   }
 
   .note-container {
     overflow: auto;
+  }
+
+  .addNote {
+    flex-direction: column;
+    gap: 1em;
   }
 
   #notesList {
