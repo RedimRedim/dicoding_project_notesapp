@@ -42,7 +42,7 @@ customElements.define(
     constructor() {
       super(NoteClass, TotalNotesClass); // Pass instances to the constructor
     }
-  },
+  }
 );
 
 customElements.define(
@@ -51,7 +51,7 @@ customElements.define(
     constructor() {
       super();
     }
-  },
+  }
 );
 
 document.addEventListener("DOMContentLoaded", async (event) => {

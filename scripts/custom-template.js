@@ -1,3 +1,5 @@
+import anime from "animejs/lib/anime.es.js"; // Ensure you import anime.js correctly
+
 const template = document.createElement("template");
 template.innerHTML = `
 <!-- Bootstrap CSS -->
@@ -166,7 +168,7 @@ export class NoteCustomAdd extends HTMLElement {
     const noteTitle = this.shadowRoot.querySelector("#noteTitle").value;
     const noteBody = this.shadowRoot.querySelector("#noteBody").value;
     const isArchived = this.shadowRoot.querySelector(
-      "#flexSwitchCheckDefault",
+      "#flexSwitchCheckDefault"
     ).checked;
     let noteData = {
       title: noteTitle,
@@ -238,6 +240,7 @@ export class NoteCustomAdd extends HTMLElement {
     this.shadowRoot
       .querySelector("#addNote")
       .addEventListener("click", this.handleNoteClick);
+
     this.shadowRoot
       .querySelector(".note-button-group")
       .addEventListener("click", this.handleSaveCancelNote);

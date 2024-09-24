@@ -1,6 +1,7 @@
 export const apiUrl = "https://notes-api.dicoding.dev/v2/notes";
 import Swal from "sweetalert2";
 import "@sweetalert2/theme-dark/dark.css"; // Import the dark theme CSS
+import anime from "animejs/lib/anime.es.js";
 
 export class Notes {
   constructor() {
@@ -35,7 +36,7 @@ export class Notes {
 
       document.querySelectorAll(".isArchived").forEach((element) => {
         element.innerHTML = getArchive ? "Unarchive" : "Archive";
-        element.style.backgroundColor = getArchive ? "#ff6b6b" : "#7f5af0"; 
+        element.style.backgroundColor = getArchive ? "#2C3E5D" : "#7f5af0";
         element.setAttribute(
           "data-archived",
           getArchive ? "unarchive" : "archive"

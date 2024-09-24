@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notes App</title>
@@ -8,58 +9,57 @@
     <!-- Quicksand-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
 
     <title>NoteApp</title>
-  </head>
+</head>
 
-  <body>
+<body>
     <main>
-      <div class="note-container">
-        <div class="notes-menu">
-          <div class="latest-created-date">
-            <p>Latest Created Date</p>
-            <p id="created-date-value"></p>
-          </div>
+        <div class="note-container">
+            <div class="notes-menu">
+                <div class="latest-created-date">
+                    <p>Latest Created Date</p>
+                    <p id="created-date-value"></p>
+                </div>
 
-          <div class="total-created-notes">
-            <p>Total Created Notes</p>
-            <p id="total-created-notes-value"></p>
-          </div>
+                <div class="total-created-notes">
+                    <p>Total Created Notes</p>
+                    <p id="total-created-notes-value"></p>
+                </div>
 
-          <div class="total-archived-notes">
-            <p>Total Archived</p>
-            <p id="total-archived-notes-value"></p>
-          </div>
+                <div class="total-archived-notes">
+                    <p>Total Archived</p>
+                    <p id="total-archived-notes-value"></p>
+                </div>
+            </div>
+
+            <div class="addNote">
+                <note-custom-add visibility="false"></note-custom-add>
+                <note-custom-filter></note-custom-filter>
+                <!-- when clicking show up the details, using custom element-->
+                <div class="select-group">
+                    <select id="archiveSelect">
+                        <option value="archived">Archive</option>
+                        <option value="">Unarchive</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div id="loading" class="spinner" style="display: none">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <div class="notes" id="notesList"></div>
+
+            <div class="end-container">
+                <note-custom-footer></note-custom-footer>
+            </div>
         </div>
-
-        <div class="addNote">
-          <note-custom-add visibility="false"></note-custom-add>
-          <note-custom-filter></note-custom-filter>
-          <!-- when clicking show up the details, using custom element-->
-          <div class="select-group">
-            <select id="archiveSelect">
-              <option value="archived">Archive</option>
-              <option value="">Unarchive</option>
-            </select>
-          </div>
-        </div>
-
-        <div id="loading" class="spinner" style="display: none">
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
-
-        <div class="notes" id="notesList"></div>
-
-        <div class="end-container">
-          <note-custom-footer></note-custom-footer>
-        </div>
-      </div>
     </main>
-  </body>
+</body>
+
 </html>

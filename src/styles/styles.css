@@ -60,6 +60,7 @@ main {
 .noteTitleGroup {
   padding: 1em;
   border-bottom: 3px solid #504e4e;
+  align-items: center;
 }
 
 .noteTitle {
@@ -148,11 +149,12 @@ main {
 }
 
 .isArchived {
-  padding: 0.8em;
-  border-radius: 5px;
+  padding: 1em;
+  width: 25%;
+  border-radius: 0.3em;
   border: 0;
   cursor: pointer;
-  color: #fffffe;
+  color: rgb(255, 255, 255);
 }
 
 .isArchived:hover {
